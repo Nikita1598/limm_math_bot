@@ -84,7 +84,42 @@ def handle_simplify(message):
 	except BaseException:
 		bot.send_message(message.chat.id, 'Ошибка при вводе выражения!')
 
+@bot.message_handler(commands=['diff'])
+def handle_diff(message):
+	try:
+		message.text=str(message)
+		if(len(message.text)!=0):
+			init_printing()
+			s=simplify(message.text)
+			lat=sympy.latex(s)
+			plt.text(0, 0.6, r"$%s$" % s, fontsize = 50)
+			plt.axis('off')
+			plt.savefig('plot.png')
+			bot.send_message(message.chat.id, diff(message.text))
+			photo = open('plot.png', 'rb')
+			bot.send_photo(message.chat.id,photo)
+			plt.close()
+	except BaseException:
+		bot.send_message(message.chat.id, 'Ошибка при вводе выражения!')
 
+@bot.message_handler(commands=['together'])
+def handle_together(message):
+	try:
+		message.text=str(message)
+		if(len(message.text)!=0):
+			init_printing()
+			s=simplify(message.text)
+			lat=sympy.latex(s)
+			plt.text(0, 0.6, r"$%s$" % s, fontsize = 50)
+			plt.axis('off')
+			plt.savefig('plot.png')
+			bot.send_message(message.chat.id, together(message.text))
+			photo = open('plot.png', 'rb')
+			bot.send_photo(message.chat.id,photo)
+			plt.close()
+	except BaseException:
+		bot.send_message(message.chat.id, 'Ошибка при вводе выражения!')
+		
 @bot.message_handler(commands=['apart'])
 def handle_apart(message):
 	try:
